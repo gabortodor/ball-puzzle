@@ -1,16 +1,29 @@
 import java.util.EnumSet;
 
-
+/**
+ * Represents the current state of the ball-puzzle.
+ */
 public class State implements Cloneable {
 
-    public Board board;
+    private Board board;
     private Position position;
 
+    /**
+     * Creates a {@code State} object which corresponds
+     * to the original initial state.
+     */
     public State() {
         board=new Board();
         position=board.getStartingPosition();
     }
 
+    /**
+     * Creates a {@code Position} object, using the given
+     * board an position.
+     *
+     * @param board the board in which the puzzle will take place
+     * @param position the position of the ball in the initial state
+     */
     public State(Board board,Position position){
         if(!board.isOnBoard(position))
             throw new IllegalArgumentException();
@@ -18,16 +31,25 @@ public class State implements Cloneable {
         this.position=position;
     }
 
+    /**
+     * {@return a clone of the current position of the ball}
+     */
     public Position getPosition() {
         return position.clone();
     }
 
-
+    /**
+     * {@return whether the current position of the ball is a goal position or not}
+     */
     public boolean isGoal() {
         return position.equals(board.getGoalPosition());
     }
 
-
+    /**
+     * {@return whether the ball can move in the direction specified or not}
+     *
+     * @param direction the direction which the ball should move in
+     */
     public boolean canMove(Direction direction) {
         return switch (direction) {
             case UP -> canMoveUp();
@@ -53,6 +75,12 @@ public class State implements Cloneable {
         return position.getCol() > 0 && !board.isLeftBlocked(position);
     }
 
+    /**
+     * Moves the ball in the direction specified, while
+     * the way isn't blocked.
+     *
+     * @param direction the direction which the ball is moved in
+     */
     public void move(Direction direction) {
         switch (direction) {
             case UP -> moveUp();
@@ -90,7 +118,9 @@ public class State implements Cloneable {
         }
     }
 
-
+    /**
+     * {@return the set of directions in which the ball can move}
+     */
     public EnumSet<Direction> getLegalMoves() {
         var legalMoves = EnumSet.noneOf(Direction.class);
         for (var direction : Direction.values()) {
