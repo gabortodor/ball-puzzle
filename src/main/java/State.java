@@ -11,6 +11,13 @@ public class State implements Cloneable {
         position=board.getStartingPosition();
     }
 
+    public State(Board board,Position position){
+        if(!board.isOnBoard(position))
+            throw new IllegalArgumentException();
+        this.board=board;
+        this.position=position;
+    }
+
     public Position getPosition() {
         return position.clone();
     }
@@ -94,13 +101,6 @@ public class State implements Cloneable {
         return legalMoves;
     }
 
-
-    private boolean isOnBoard(Position position) {
-        return position.getRow() >= 0 && position.getRow() < board.getBoardSize() &&
-                position.getCol() >= 0 && position.getCol() < board.getBoardSize();
-    }
-/*
-
     @Override
     public boolean equals(Object o) {
         if (o == this) {
@@ -109,12 +109,12 @@ public class State implements Cloneable {
         if (! (o instanceof State)) {
             return false;
         }
-        return position.equals(((State) o).position);
+        return position.equals(((State) o).position) && board.equals(((State)o).board);
     }
 
     @Override
     public int hashCode() {
-        return goalPosition.hashCode()-position.hashCode();
+        return board.getGoalPosition().hashCode()-position.hashCode();
     }
 
     @Override
@@ -125,16 +125,9 @@ public class State implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
-        copy.position = deepClone(position);
+        copy.position = position.clone();
+        copy.board=board.clone();
         return copy;
     }
-
- */
-
-    @Override
-    public String toString() {
-        return position.toString();
-    }
-
 
 }

@@ -1,112 +1,87 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class Board {
+public class Board implements Cloneable{
 
-    public Tile[][] tiles;
+
     public static final int BOARD_SIZE = 7;
     private Position startingPosition = new Position(1, 4);
     private Position goalPosition = new Position(5, 2);
+    Position[] topBorders;
+    Position[] rightBorders;
 
-    public Board() {
-        this(new int[][]{{1, 2}, {4, 3}, {5, 0}, {5, 4}},
-                new int[][]{{0, 0}, {2, 2}, {3, 4}, {5, 2}, {6, 3}},
-                new int[][]{{0, 6}, {2, 1}, {3, 6}, {5, 2}},
-                new int[][]{{0, 4}, {2, 6}, {3, 4}, {5, 2}, {6, 6}});
+    public Board(){
+        this(new int[][]{{1,2},{1,6},{3,1},{4,3},{4,6},{5,0},{5,4},{6,2}},
+        new int[][]{{0,0},{0,3},{2,2},{2,5},{3,3},{3,4},{5,1},{5,2},{6,3},{6,5}});
     }
 
-    public Board(int[][] topBorders, int[][] rightBorders, int[][] bottomBorders, int[][] leftBorders) {
-        checkBorders(topBorders, rightBorders, bottomBorders, leftBorders);
-        tiles = new Tile[BOARD_SIZE][BOARD_SIZE];
-        setUpBlankBoard();
-
-        this.generateStartingBoard(topBorders, rightBorders, bottomBorders, leftBorders);
+    public Board(int[][] topBorders,int[][] rightBorders) {
+        this(convertArrayToPosition(topBorders),convertArrayToPosition(rightBorders));
     }
 
-    private void setUpBlankBoard(){
-        for(int i=0;i<BOARD_SIZE;i++){
-            for(int j=0;j<BOARD_SIZE;j++){
-                tiles[i][j]=new Tile();
-            }
+    public Board(Position[] topBorders,Position[] rightBorders) {
+        checkBorders(topBorders, rightBorders);
+        this.topBorders=topBorders;
+        this.rightBorders=rightBorders;
+
+    }
+
+    private static Position[] convertArrayToPosition(int[][] intArray){
+        List<Position> temp=new ArrayList<>();
+        for(var coordinate:intArray){
+            temp.add(new Position(coordinate[0],coordinate[1]));
         }
+        Position[] positions=new Position[temp.size()];
+        return temp.toArray(positions);
     }
 
-    private void generateStartingBoard(int[][] topBorders, int[][] rightBorders, int[][] bottomBorders, int[][] leftBorders) {
-        this.setTopBorders(topBorders);
-        this.setRightBorders(rightBorders);
-        this.setBottomBorders(bottomBorders);
-        this.setLeftBorders(leftBorders);
+    private void checkBorders(Position[] topBorders,Position[] rightBorders){
+        if(checkBoardIndexes(topBorders) || checkBoardIndexes(rightBorders))
+            throw new IllegalArgumentException();
     }
 
-    private void checkBorders(int[][] topBorders, int[][] rightBorders, int[][] bottomBorders, int[][] leftBorders) {
-        checkBoardIndexes(topBorders);
-        checkBoardIndexes(rightBorders);
-        checkBoardIndexes(bottomBorders);
-        checkBoardIndexes(leftBorders);
-    }
 
-    private void checkBoardIndexes(int[][] borderArray) {
-        for (var cordinates : borderArray) {
-            if (!isOnBoard(cordinates[0], cordinates[1])) {
-                throw new IllegalArgumentException();
-            }
-        }
+    private boolean checkBoardIndexes(Position[] borderArray) {
+      return Arrays.stream(borderArray).anyMatch(position -> position.getRow()>=BOARD_SIZE || position.getCol()>=BOARD_SIZE);
     }
 
     public void setStartingPosition(Position position) {
-        if (isOnBoard(position.getRow(), position.getCol()))
-            startingPosition = position;
-        throw new IllegalArgumentException();
+        if (!isOnBoard(position))
+            throw new IllegalArgumentException();
+        startingPosition = position;
+
     }
 
     public void setGoalPosition(Position position) {
-        if (isOnBoard(position.getRow(), position.getCol()))
-            goalPosition = position;
-        throw new IllegalArgumentException();
+        if (!isOnBoard(position))
+            throw new IllegalArgumentException();
+        goalPosition = position;
+
     }
 
-    private void setTopBorders(int[][] coordinates) {
-        for (int[] coordinate : coordinates) {
-            tiles[coordinate[0]][coordinate[1]].setTopBorder(true);
-        }
-    }
-
-    private void setRightBorders(int[][] coordinates) {
-        for (int[] coordinate : coordinates) {
-            tiles[coordinate[0]][coordinate[1]].setRightBorder(true);
-        }
-    }
-
-    private void setBottomBorders(int[][] coordinates) {
-        for (int[] coordinate : coordinates) {
-            tiles[coordinate[0]][coordinate[1]].setBottomBorder(true);
-        }
-    }
-
-    private void setLeftBorders(int[][] coordinates) {
-        for (int[] coordinate : coordinates) {
-            tiles[coordinate[0]][coordinate[1]].setLeftBorder(true);
-        }
-    }
 
     public boolean isUpBlocked(Position position) {
-        return tiles[position.getRow()][position.getCol()].isTopBorder() || tiles[position.getRow() - 1][position.getCol()].isBottomBorder();
+       return Arrays.stream(topBorders).anyMatch(position::equals);
     }
 
     public boolean isRightBlocked(Position position) {
-        return tiles[position.getRow()][position.getCol()].isRightBorder() || tiles[position.getRow()][position.getCol() + 1].isLeftBorder();
+        return Arrays.stream(rightBorders).anyMatch(position::equals);
     }
 
     public boolean isDownBlocked(Position position) {
-        return tiles[position.getRow()][position.getCol()].isBottomBorder() || tiles[position.getRow() + 1][position.getCol()].isTopBorder();
+        Position positionDown=position.getDown();
+        return Arrays.stream(topBorders).anyMatch(positionDown::equals);
     }
 
     public boolean isLeftBlocked(Position position) {
-        return tiles[position.getRow()][position.getCol()].isLeftBorder() || tiles[position.getRow()][position.getCol() - 1].isRightBorder();
+        Position positionLeft=position.getLeft();
+        return Arrays.stream(rightBorders).anyMatch(positionLeft::equals);
     }
 
-    private boolean isOnBoard(int row, int col) {
-        return row >= 0 && row < BOARD_SIZE &&
-                col >= 0 && col < BOARD_SIZE;
+    public boolean isOnBoard(Position position) {
+        return position.getRow() >= 0 && position.getRow() < BOARD_SIZE &&
+                position.getCol() >= 0 && position.getCol() < BOARD_SIZE;
     }
 
     public Position getStartingPosition() {
@@ -120,4 +95,46 @@ public class Board {
     public int getBoardSize() {
         return BOARD_SIZE;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (! (o instanceof Board)) {
+            return false;
+        }
+        return  startingPosition.equals(((Board)o).startingPosition) && goalPosition.equals(((Board)o).goalPosition)
+                && Arrays.equals(topBorders,((Board)o).topBorders)
+                && Arrays.equals(rightBorders,((Board)o).rightBorders);
+    }
+
+    @Override
+    public int hashCode() {
+        return (Arrays.hashCode(topBorders)+Arrays.hashCode(rightBorders)+startingPosition.hashCode()+ goalPosition.hashCode())/BOARD_SIZE;
+    }
+
+    @Override
+    public Board clone() {
+        Board copy;
+        try {
+            copy = (Board) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+        copy.startingPosition = startingPosition.clone();
+        copy.goalPosition = goalPosition.clone();
+        copy.topBorders=deepClone(topBorders);
+        copy.rightBorders=deepClone(rightBorders);
+        return copy;
+    }
+
+    private static Position[] deepClone(Position[] a) {
+        Position[] copy = a.clone();
+        for (var i = 0; i < a.length; i++) {
+            copy[i] = a[i].clone();
+        }
+        return copy;
+    }
+
 }

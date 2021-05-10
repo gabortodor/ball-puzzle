@@ -21,6 +21,26 @@ public class Position implements Cloneable {
         return col;
     }
 
+    public Position getTarget(Direction direction) {
+        return new Position(row + direction.getRowChange(), col + direction.getColChange());
+    }
+
+    public Position getUp() {
+        return getTarget(Direction.UP);
+    }
+
+    public Position getRight() {
+        return getTarget(Direction.RIGHT);
+    }
+
+    public Position getDown() {
+        return getTarget(Direction.DOWN);
+    }
+
+    public Position getLeft() {
+        return getTarget(Direction.LEFT);
+    }
+
     public void setTarget(Direction direction) {
         row += direction.getRowChange();
         col += direction.getColChange();
