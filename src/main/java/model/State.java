@@ -1,3 +1,7 @@
+package model;
+
+import javafx.beans.property.*;
+
 import java.util.EnumSet;
 
 /**
@@ -6,19 +10,23 @@ import java.util.EnumSet;
 public class State implements Cloneable {
 
     private Board board;
-    private Position position;
+    ObjectProperty<Position> position = new SimpleObjectProperty<>();
+    SimpleBooleanProperty goal=new SimpleBooleanProperty();
+    SimpleIntegerProperty numberOfMoves=new SimpleIntegerProperty();
 
     /**
-     * Creates a {@code State} object which corresponds
+     * Creates a {@code model.State} object which corresponds
      * to the original initial state.
      */
     public State() {
-        board=new Board();
-        position=board.getStartingPosition();
+        this.board=new Board();
+        this.position.set(board.getStartingPosition());
+        goal.set(false);
+        numberOfMoves.set(0);
     }
 
     /**
-     * Creates a {@code Position} object, using the given
+     * Creates a {@code model.Position} object, using the given
      * board an position.
      *
      * @param board the board in which the puzzle will take place
@@ -28,21 +36,41 @@ public class State implements Cloneable {
         if(!board.isOnBoard(position))
             throw new IllegalArgumentException();
         this.board=board;
-        this.position=position;
+        this.position.set(position);
+        goal.set(false);
+        numberOfMoves.set(0);
     }
 
     /**
-     * {@return a clone of the current position of the ball}
+     * {@return the current position of the ball}
      */
     public Position getPosition() {
-        return position.clone();
+        return position.get();
     }
+
+    public ObjectProperty<Position> positionProperty() {
+        return position;
+    }
+
+    public SimpleBooleanProperty goalProperty(){
+        return goal;
+    }
+
+    public SimpleIntegerProperty numberOfMovesProperty(){
+        return numberOfMoves;
+    }
+
+    public int getNumberOfMoves() {
+        return numberOfMoves.get();
+    }
+
+    public boolean getGoal(){return goal.get();}
 
     /**
      * {@return whether the current position of the ball is a goal position or not}
      */
-    public boolean isGoal() {
-        return position.equals(board.getGoalPosition());
+    public void isGoal() {
+        goal.set(position.get().equals(board.getGoalPosition()));
     }
 
     /**
@@ -60,19 +88,19 @@ public class State implements Cloneable {
     }
 
     private boolean canMoveUp() {
-        return position.getRow() > 0 && !board.isUpBlocked(position);
+        return position.get().getRow() > 0 && !board.isUpBlocked(position.get());
     }
 
     private boolean canMoveRight() {
-        return position.getCol()<board.getBoardSize()-1 && !board.isRightBlocked(position);
+        return position.get().getCol()<board.getBoardSize()-1 && !board.isRightBlocked(position.get());
     }
 
     private boolean canMoveDown() {
-        return position.getRow()<board.getBoardSize()-1 && !board.isDownBlocked(position);
+        return position.get().getRow()<board.getBoardSize()-1 && !board.isDownBlocked(position.get());
     }
 
     private boolean canMoveLeft() {
-        return position.getCol() > 0 && !board.isLeftBlocked(position);
+        return position.get().getCol() > 0 && !board.isLeftBlocked(position.get());
     }
 
     /**
@@ -88,32 +116,38 @@ public class State implements Cloneable {
             case DOWN -> moveDown();
             case LEFT -> moveLeft();
         }
+        isGoal();
+        numberOfMoves.set(numberOfMoves.get()+1);
     }
 
     private void moveUp() {
         if(canMoveUp()){
-            position.setUp();
+            Position newPosition=position.get().getUp();
+            position.set(newPosition);
             moveUp();
         }
     }
 
     private void moveRight() {
         if(canMoveRight()){
-            position.setRight();
+            Position newPosition=position.get().getRight();
+            position.set(newPosition);
             moveRight();
         }
     }
 
     private void moveDown() {
         if(canMoveDown()){
-            position.setDown();
+            Position newPosition=position.get().getDown();
+            position.set(newPosition);
             moveDown();
         }
     }
 
     private void moveLeft() {
         if(canMoveLeft()){
-            position.setLeft();
+            Position newPosition=position.get().getLeft();
+            position.set(newPosition);
             moveLeft();
         }
     }
@@ -129,6 +163,10 @@ public class State implements Cloneable {
             }
         }
         return legalMoves;
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     @Override
@@ -155,7 +193,7 @@ public class State implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
-        copy.position = position.clone();
+        copy.position = new SimpleObjectProperty<>(position.get().clone());
         copy.board=board.clone();
         return copy;
     }

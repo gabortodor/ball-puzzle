@@ -8,14 +8,42 @@
     <artifactId>ball-puzzle</artifactId>
     <version>1.0</version>
 
+    <packaging>jar</packaging>
+    <description>Java implementation of a ball-puzzle.</description>
+    <developers>
+        <developer>
+            <name>Tódor Gábor</name>
+            <email>gabortodor@gmail.com</email>
+            <organization>Faculty of Informatics, University of Debrecen</organization>
+            <organizationUrl>https://inf.unideb.hu/</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <developerConnection>scm:git:https://github.com/gabortodor/ball-puzzle.git</developerConnection>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <maven.compiler.release>16</maven.compiler.release>
+        <exec.mainClass>remove.me.RemoveThisClass</exec.mainClass>
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
+        <javafx.version>16</javafx.version>
         <jacoco.version>0.8.6</jacoco.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
@@ -28,6 +56,24 @@
             <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.5</version>
+            <configuration>
+                <mainClass>${exec.mainClass}</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+    </build>
 
 </project>

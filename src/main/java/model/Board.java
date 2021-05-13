@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Board implements Cloneable{
     private Position[] rightBorders;
 
     /**
-     * Creates a {@code Board} object which corresponds
+     * Creates a {@code model.Board} object which corresponds
      * to the original puzzle's board.
      */
     public Board(){
@@ -27,7 +29,7 @@ public class Board implements Cloneable{
     }
 
     /**
-     * Creates a {@code Board} object, using the given
+     * Creates a {@code model.Board} object, using the given
      * top-and-right borders of the tiles.
      *
      * @param topBorders a 2D {@code int} array consisting of tile coordinates, specifying the tiles with top borders
@@ -38,11 +40,11 @@ public class Board implements Cloneable{
     }
 
     /**
-     * Creates a {@code Board} object, using the given
+     * Creates a {@code model.Board} object, using the given
      * top-and-right borders of the tiles.
      *
-     * @param topBorders a {@code Position} array consisting of tile positions, specifying the tiles with top borders
-     * @param rightBorders a {@code Position} array consisting of tile positions, specifying the tiles with right borders
+     * @param topBorders a {@code model.Position} array consisting of tile positions, specifying the tiles with top borders
+     * @param rightBorders a {@code model.Position} array consisting of tile positions, specifying the tiles with right borders
      */
     public Board(Position[] topBorders,Position[] rightBorders) {
         checkBorders(topBorders, rightBorders);
@@ -152,6 +154,14 @@ public class Board implements Cloneable{
 
     public int getBoardSize() {
         return BOARD_SIZE;
+    }
+
+    public Position[] getTopBorders() {
+        return topBorders;
+    }
+
+    public Position[] getRightBorders() {
+        return rightBorders;
     }
 
     @Override

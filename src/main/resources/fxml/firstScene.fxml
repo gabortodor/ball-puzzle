@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FirstController">
+   <top>
+      <Label text="Ball Puzzle" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Enter your name:" />
+            <TextField fx:id="username" />
+         </children>
+      </HBox>
+   </center>
+   <bottom>
+      <HBox spacing="520.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" text="Exit">
+               <HBox.margin>
+                  <Insets left="3.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="play" mnemonicParsing="false" onAction="#switchScene" text="Play" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

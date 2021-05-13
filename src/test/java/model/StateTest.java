@@ -1,3 +1,9 @@
+package model;
+
+import model.Board;
+import model.Direction;
+import model.Position;
+import model.State;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
@@ -21,10 +27,14 @@ public class StateTest {
 
     @Test
     void isGoal() {
-        assertFalse(state1.isGoal());
-        assertTrue(state2.isGoal());
-        assertFalse(state3.isGoal());
-        assertFalse(state4.isGoal());
+        state1.isGoal();
+        state2.isGoal();
+        state3.isGoal();
+        state4.isGoal();
+        assertFalse(state1.getGoal());
+        assertTrue(state2.getGoal());
+        assertFalse(state3.getGoal());
+        assertFalse(state4.getGoal());
     }
 
     @Test

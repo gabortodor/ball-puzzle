@@ -1,0 +1,31 @@
+.grid{
+    -fx-border-style: solid;
+    -fx-border-color: black;
+    -fx-border-width: 5;
+}
+
+.tile {
+    -fx-border-style: solid;
+    -fx-border-color: black;
+}
+
+.tile-top{
+    -fx-border-width: 5 1 1 1;
+}
+
+.tile-right{
+    -fx-border-width: 1 5 1 1;
+}
+
+.selectable {
+    -fx-border-width: 2;
+    -fx-border-color: navy;
+}
+
+.tile:hover {
+    -fx-background-color: ghostwhite;
+}
+
+.selectable:hover{
+    -fx-background-color: Lightblue;
+}

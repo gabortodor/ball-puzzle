@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Represents the four main directions in which the ball can move.
  */

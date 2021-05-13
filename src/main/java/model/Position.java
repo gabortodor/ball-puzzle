@@ -1,3 +1,4 @@
+package model;
 
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class Position implements Cloneable {
     private int col;
 
     /**
-     * Creates a {@code Position} object.
+     * Creates a {@code model.Position} object.
      *
      * @param row the row coordinate of the position
      * @param col the column coordinate of the position
@@ -65,9 +66,10 @@ public class Position implements Cloneable {
      *
      * @param direction a direction that specifies the change in the coordinates
      */
-    public void setTarget(Direction direction) {
+    public Position setTarget(Direction direction) {
         row += direction.getRowChange();
         col += direction.getColChange();
+        return this;
     }
 
     public void setUp() {
