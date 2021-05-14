@@ -10,19 +10,22 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.tinylog.Logger;
+
 public class FirstController {
 
     @FXML
     private void switchScene(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/secondScene.fxml"));
+        Logger.debug("Switching scenes...");
         stage.setScene(new Scene(root));
         stage.show();
     }
 
     @FXML
     private void handleExit(ActionEvent event) {
-        System.out.println("Exiting...");
+        Logger.debug("Exiting...");
         Platform.exit();
     }
 

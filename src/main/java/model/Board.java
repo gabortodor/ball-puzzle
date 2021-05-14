@@ -144,22 +144,37 @@ public class Board implements Cloneable{
                 position.getCol() >= 0 && position.getCol() < BOARD_SIZE;
     }
 
+    /**
+     * {@return the starting position of the board}
+     */
     public Position getStartingPosition() {
         return startingPosition;
     }
 
+    /**
+     * {@return the goal position of the board}
+     */
     public Position getGoalPosition() {
         return goalPosition;
     }
 
+    /**
+     * {@return the size of the board}
+     */
     public int getBoardSize() {
         return BOARD_SIZE;
     }
 
+    /**
+     * {@return a {@code model.Position} array containing the positions of the tiles with top borders}
+     */
     public Position[] getTopBorders() {
         return topBorders;
     }
 
+    /**
+     * {@return a {@code model.Position} array containing the positions of the tiles with right borders}
+     */
     public Position[] getRightBorders() {
         return rightBorders;
     }

@@ -44,9 +44,6 @@ public class Stopwatch {
     }
 
     public void reset() {
-        if (timeline.getStatus() != Animation.Status.PAUSED) {
-            throw new IllegalStateException();
-        }
         seconds.set(0);
     }
 

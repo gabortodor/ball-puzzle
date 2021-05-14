@@ -2,13 +2,14 @@ package ui;
 
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-
+import org.tinylog.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -23,12 +24,12 @@ import java.util.Random;
 
 public class SecondController {
 
-    private List<Position> selectablePositions = new ArrayList<>();
-    private State state = new State();
-    private Stopwatch stopwatch=new Stopwatch();
-    Color color=generateColor();
+    private final List<Position> selectablePositions = new ArrayList<>();
+    private final State state = new State();
+    private final Stopwatch stopwatch = new Stopwatch();
+    Color color = generateColor();
 
-    String[] arrows=new String[]{"\u25B2","\u25B6","\u25BC","\u25C0"};
+    String[] arrows = new String[]{"\u25B2", "\u25B6", "\u25BC", "\u25C0"};
 
     @FXML
     private GridPane grid;
@@ -49,7 +50,7 @@ public class SecondController {
         createBindings();
     }
 
-    private void createBindings(){
+    private void createBindings() {
         numberOfMovesField.textProperty().bind(state.numberOfMovesProperty().asString());
         elapsedTime.textProperty().bind(stopwatch.hhmmssProperty());
         state.goalProperty().addListener(this::handleIsGoal);
@@ -60,11 +61,12 @@ public class SecondController {
         grid.getStyleClass().add("grid");
         for (int i = 0; i < grid.getRowCount(); i++) {
             for (int j = 0; j < grid.getColumnCount(); j++) {
-                var square = createTile();
-                grid.add(square, j, i);
+                var tile = createTile();
+                grid.add(tile, j, i);
                 setBorders(new Position(i, j));
             }
         }
+        createGoal();
     }
 
     private void setBorders(Position position) {
@@ -91,6 +93,13 @@ public class SecondController {
         getTile(state.getPosition()).getChildren().add(ball);
     }
 
+    private void createGoal(){
+        StackPane tile=getTile(state.getBoard().getGoalPosition());
+        Label text=new Label("Goal");
+        text.setTextFill(color);
+        text.setFont(new Font(30));
+        tile.getChildren().add(text);
+    }
 
     private StackPane getTile(Position position) {
         for (var child : grid.getChildren()) {
@@ -107,8 +116,7 @@ public class SecondController {
         var row = GridPane.getRowIndex(tile);
         var col = GridPane.getColumnIndex(tile);
         var position = new Position(row, col);
-        System.out.println(position);
-        //Logger.debug("Click on square {}", position);
+        Logger.debug("Click on the tile: {}", position);
         handleClickOnSquare(position);
     }
 
@@ -117,10 +125,10 @@ public class SecondController {
             hideSelectablePositions();
             Direction direction = Direction.of(position.getRow() - state.getPosition().getRow(), position.getCol() - state.getPosition().getCol());
             hideSelectablePositions();
+            Logger.debug("Moving the ball in the direction: {}",direction);
             state.move(direction);
             setSelectablePositions();
             showSelectablePositions();
-            //Logger
         }
     }
 
@@ -136,7 +144,10 @@ public class SecondController {
     private void showSelectablePositions() {
         for (var selectablePosition : selectablePositions) {
             var tile = getTile(selectablePosition);
-            tile.getChildren().add(addArrow(tile,selectablePosition));
+            Label arrow=addArrow(selectablePosition);
+            arrow.getStyleClass().add("arrow");
+            tile.getChildren().add(arrow);
+
         }
     }
 
@@ -147,45 +158,60 @@ public class SecondController {
         }
     }
 
-    private Color generateColor(){
-        Random random=new Random();
-        return Color.rgb(random.nextInt(255),random.nextInt(255),random.nextInt(255));
+    private Color generateColor() {
+        Random random = new Random();
+        return Color.rgb(random.nextInt(245)+10, random.nextInt(245)+10, random.nextInt(245)+10);
     }
 
-    private Label addArrow(StackPane tile,Position position){
-        int row=position.getRow()-state.getPosition().getRow();
-        int col=position.getCol()-state.getPosition().getCol();
-        int index=Direction.of(row,col).ordinal();
-        Label text=new Label(arrows[index]);
+    private Label addArrow(Position position) {
+        int row = position.getRow() - state.getPosition().getRow();
+        int col = position.getCol() - state.getPosition().getCol();
+        int index = Direction.of(row, col).ordinal();
+        Label text = new Label(arrows[index]);
         text.setTextFill(color);
-        if(index%2==0)
+        if (index % 2 == 0)
             text.setFont(new Font(30));
         else
             text.setFont(new Font(50));
         return text;
     }
-    private void removeArrow(StackPane tile){
+
+    private void removeArrow(StackPane tile) {
         tile.getChildren().clear();
     }
 
 
     private void ballPositionChange(ObservableValue<? extends Position> observable, Position oldPosition, Position newPosition) {
-        //Logger   System.out.println("Move:" + oldPosition + "->" + newPosition);
+        Logger.debug("Move:{} -> {}",oldPosition,newPosition);
         StackPane oldTile = getTile(oldPosition);
         StackPane newTile = getTile(newPosition);
         newTile.getChildren().addAll(oldTile.getChildren());
         oldTile.getChildren().clear();
     }
 
-    private void handleIsGoal(ObservableValue observableValue,boolean oldValue, boolean newValue){
-        if(newValue){
+    private void handleIsGoal(ObservableValue observableValue, boolean oldValue, boolean newValue) {
+        if (newValue) {
             stopwatch.stop();
-            System.out.println("The goal is reached");
-            Alert isGoalAlert=new Alert(Alert.AlertType.CONFIRMATION);
+            Logger.debug("The goal has been reached with the time of {} and the move count of {}",stopwatch.hhmmssProperty().get(),state.getNumberOfMoves());
+            Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION);
             isGoalAlert.setHeaderText("Game over is dead");
             isGoalAlert.setContentText("Bottom text");
             isGoalAlert.showAndWait();
         }
+    }
+
+    @FXML
+    private void handleRestart() {
+        Logger.debug("Puzzle restarted");
+        state.positionProperty().set(state.getBoard().getStartingPosition());
+        state.numberOfMovesProperty().set(0);
+        hideSelectablePositions();
+        stopwatch.reset();
+        setSelectablePositions();
+        showSelectablePositions();
+
+
+
     }
 
 }

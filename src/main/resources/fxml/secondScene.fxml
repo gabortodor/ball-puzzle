@@ -31,8 +31,13 @@
             <Label text="Moves:" />
             <TextField fx:id="numberOfMovesField" editable="false" prefColumnCount="3" text="0">
                <HBox.margin>
-                  <Insets right="350.0" />
+                  <Insets />
                </HBox.margin></TextField>
+            <Button mnemonicParsing="false" onAction="#handleRestart" text="Restart">
+               <HBox.margin>
+                  <Insets left="140.0" right="140.0" />
+               </HBox.margin>
+            </Button>
             <Label text="Elapsed Time:" />
             <TextField fx:id="elapsedTime" editable="false" prefColumnCount="8" prefHeight="25.0" prefWidth="61.0" text="00:00:00" />
          </children>

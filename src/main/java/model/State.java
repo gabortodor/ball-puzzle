@@ -10,9 +10,9 @@ import java.util.EnumSet;
 public class State implements Cloneable {
 
     private Board board;
-    ObjectProperty<Position> position = new SimpleObjectProperty<>();
-    SimpleBooleanProperty goal=new SimpleBooleanProperty();
-    SimpleIntegerProperty numberOfMoves=new SimpleIntegerProperty();
+    private ObjectProperty<Position> position = new SimpleObjectProperty<>();
+    private SimpleBooleanProperty goal=new SimpleBooleanProperty();
+    private SimpleIntegerProperty numberOfMoves=new SimpleIntegerProperty();
 
     /**
      * Creates a {@code model.State} object which corresponds
@@ -48,23 +48,42 @@ public class State implements Cloneable {
         return position.get();
     }
 
+    /**
+     * {@return the positionProperty linked to the ball}
+     */
     public ObjectProperty<Position> positionProperty() {
         return position;
     }
 
+    /**
+     * {@return whether is the current position is a goal position or not}
+     */
+    public boolean getGoal(){return goal.get();}
+
+    /**
+     * {@return the goalProperty of the state}
+     */
     public SimpleBooleanProperty goalProperty(){
         return goal;
     }
 
-    public SimpleIntegerProperty numberOfMovesProperty(){
-        return numberOfMoves;
-    }
-
+    /**
+     * {@return the number of moves in the current state}
+     */
     public int getNumberOfMoves() {
         return numberOfMoves.get();
     }
 
-    public boolean getGoal(){return goal.get();}
+    /**
+     * {@return the numberOfMovesProperty of the state}
+     */
+    public SimpleIntegerProperty numberOfMovesProperty(){
+        return numberOfMoves;
+    }
+
+
+
+
 
     /**
      * {@return whether the current position of the ball is a goal position or not}
@@ -165,6 +184,9 @@ public class State implements Cloneable {
         return legalMoves;
     }
 
+    /**
+     * {@return the {@code Board} used in the current state}
+     */
     public Board getBoard() {
         return board;
     }
@@ -177,12 +199,12 @@ public class State implements Cloneable {
         if (! (o instanceof State)) {
             return false;
         }
-        return position.equals(((State) o).position) && board.equals(((State)o).board);
+        return position.get().equals(((State) o).position.get()) && board.equals(((State)o).board);
     }
 
     @Override
     public int hashCode() {
-        return board.getGoalPosition().hashCode()-position.hashCode();
+        return board.getGoalPosition().hashCode()-position.get().hashCode();
     }
 
     @Override

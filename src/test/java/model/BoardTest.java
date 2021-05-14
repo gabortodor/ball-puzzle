@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
 
-    Board board1=new Board();
+    Board board1=new Board(); //A board which corresponds to the original puzzle's board
 
     Board board2=new Board(new int[][]{{4,4},{5,4}},
-            new int[][]{{4,4},{4,3}});// A gameboard with the (4,4) cell having all the borders
+            new int[][]{{4,4},{4,3}});// A board with the (4,4) cell having all the borders
 
 
     Position position1=new Position(1,4);

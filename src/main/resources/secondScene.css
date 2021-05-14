@@ -17,15 +17,14 @@
     -fx-border-width: 1 5 1 1;
 }
 
-.selectable {
-    -fx-border-width: 2;
-    -fx-border-color: navy;
+.arrow{
+    -fx-opacity: 0.6;
 }
 
 .tile:hover {
     -fx-background-color: ghostwhite;
 }
 
-.selectable:hover{
-    -fx-background-color: Lightblue;
+.arrow:hover{
+    -fx-opacity:1;
 }
