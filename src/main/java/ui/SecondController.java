@@ -1,14 +1,23 @@
 package ui;
 
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import org.tinylog.Logger;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,6 +26,7 @@ import model.Direction;
 import model.Position;
 import model.State;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,6 +52,7 @@ public class SecondController {
 
     @FXML
     private void initialize() {
+        Logger.debug("Initializing puzzle");
         createGrid();
         createBall();
         setSelectablePositions();
@@ -70,8 +81,8 @@ public class SecondController {
     }
 
     private void setBorders(Position position) {
-        List rightBorders = Arrays.asList(state.getBoard().getRightBorders());
-        List topBorders = Arrays.asList(state.getBoard().getTopBorders());
+        List<Position> rightBorders = Arrays.asList(state.getBoard().getRightBorders());
+        List<Position> topBorders = Arrays.asList(state.getBoard().getTopBorders());
         if (rightBorders.contains(position))
             getTile(position).getStyleClass().add("tile-right");
         if (topBorders.contains(position))
@@ -160,7 +171,7 @@ public class SecondController {
 
     private Color generateColor() {
         Random random = new Random();
-        return Color.rgb(random.nextInt(245)+10, random.nextInt(245)+10, random.nextInt(245)+10);
+        return Color.rgb(random.nextInt(230), random.nextInt(230), random.nextInt(230));
     }
 
     private Label addArrow(Position position) {
@@ -189,14 +200,21 @@ public class SecondController {
         oldTile.getChildren().clear();
     }
 
-    private void handleIsGoal(ObservableValue observableValue, boolean oldValue, boolean newValue) {
+    private void handleIsGoal(ObservableValue observableValue, boolean oldValue, boolean newValue){
         if (newValue) {
             stopwatch.stop();
             Logger.debug("The goal has been reached with the time of {} and the move count of {}",stopwatch.hhmmssProperty().get(),state.getNumberOfMoves());
-            Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            isGoalAlert.setHeaderText("Game over is dead");
-            isGoalAlert.setContentText("Bottom text");
+            ButtonType menu=new ButtonType("Main menu");
+            Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION,"Alert",menu,new ButtonType("Leaderboard"));
+            isGoalAlert.setTitle("Puzzle solved");
+            isGoalAlert.setHeaderText("The puzzle has been solved!");
+            isGoalAlert.setContentText("Time: "+stopwatch.hhmmssProperty().get()+"\tMoves:"+state.getNumberOfMoves());
             isGoalAlert.showAndWait();
+            if(isGoalAlert.getResult()==menu){
+                switchScene("/fxml/firstScene.fxml");
+            }else{
+                switchScene("/fxml/thirdScene.fxml");
+            }
         }
     }
 
@@ -209,9 +227,22 @@ public class SecondController {
         stopwatch.reset();
         setSelectablePositions();
         showSelectablePositions();
+    }
 
-
-
+    private void switchScene(String path) {
+        Logger.debug("Switching scenes...");
+        Stage stage = (Stage) (grid.getScene().getWindow());
+        Parent root=null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(path));
+        }
+        catch (IOException e){
+            Logger.debug("Cannot load scene");
+            Logger.debug("Exception caught:{}, {}",e.getMessage(),e.getCause());
+            System.exit(1);
+        }
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
 }

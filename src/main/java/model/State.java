@@ -11,8 +11,8 @@ public class State implements Cloneable {
 
     private Board board;
     private ObjectProperty<Position> position = new SimpleObjectProperty<>();
-    private SimpleBooleanProperty goal=new SimpleBooleanProperty();
-    private SimpleIntegerProperty numberOfMoves=new SimpleIntegerProperty();
+    private final SimpleBooleanProperty goal=new SimpleBooleanProperty();
+    private final SimpleIntegerProperty numberOfMoves=new SimpleIntegerProperty();
 
     /**
      * Creates a {@code model.State} object which corresponds

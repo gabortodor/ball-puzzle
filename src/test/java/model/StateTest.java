@@ -1,9 +1,6 @@
 package model;
 
-import model.Board;
-import model.Direction;
-import model.Position;
-import model.State;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumSet;
