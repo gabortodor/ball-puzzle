@@ -16,14 +16,14 @@ import java.util.List;
 
 public class JsonHelper {
 
-    private final int LEADERBOARDSIZE = 100;
-    private final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-    private final File file;
+    public static final int LEADERBOARDSIZE = 100;
+    public static final String DEFAULTUSERNAME ="*";
+    private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+    private static File file=new File(determineFilePath());;
     private JsonObject[] array = new JsonObject[LEADERBOARDSIZE];
 
 
     public JsonHelper(String username, int numberOfMoves, long seconds) {
-        file=new File(determineFilePath());
         JsonObject newRecord=new JsonObject(username,numberOfMoves,seconds);
         initializeArray();
         ArrayList<JsonObject> jsonObjects = new ArrayList<>(Arrays.asList(array));
@@ -36,18 +36,13 @@ public class JsonHelper {
 
     public void initializeArray() {
         if (file.exists()) {
-            try {
-                array = objectMapper.readValue(file, JsonObject[].class);
-            } catch (Exception e) {
-                Logger.debug("Cannot read values from the specified JSON file");
-            }
+            array=load();
         } else {
-            Arrays.fill(array, new JsonObject("default", Integer.MAX_VALUE, Long.MAX_VALUE));
+            Arrays.fill(array, new JsonObject("*", Integer.MAX_VALUE, Long.MAX_VALUE));
         }
     }
 
-    private String determineFilePath(){
-        System.out.println("EEEEEEEEE:"+System.getProperty("user.dir"));
+    private static String determineFilePath(){
         String UserHome = System.getProperty("user.home");
         String path=null;
         try {
@@ -82,7 +77,24 @@ public class JsonHelper {
         }
     }
 
-    private static class JsonObject {
+    public static JsonObject[] load(){
+        try {
+            return objectMapper.readValue(file, JsonObject[].class);
+        } catch (Exception e) {
+            Logger.debug("Cannot read values from the specified JSON file");
+            return null;
+        }
+    }
+
+    public static void deleteSave(){
+        file.delete();
+    }
+
+    public static File getFile() {
+        return file;
+    }
+
+    public static class JsonObject {
         private String username;
 
         private int numberOfMoves;

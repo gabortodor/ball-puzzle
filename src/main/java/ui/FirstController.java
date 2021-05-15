@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
@@ -18,10 +19,12 @@ public class FirstController {
     @FXML
     private TextField usernameField;
 
+
+
     @FXML
     private void switchToGame(ActionEvent event) throws IOException {
-        if(usernameField.getText().isEmpty())
-            handleUsernameNull();
+        if(usernameField.getText().isEmpty() || usernameField.getText().equals(JsonHelper.DEFAULTUSERNAME))
+            handleUsernameInvalid();
         else {
             Logger.debug("Switching scene to game");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/secondScene.fxml"));
@@ -49,9 +52,16 @@ public class FirstController {
         Platform.exit();
     }
 
-    private void handleUsernameNull(){
-        usernameField.promptTextProperty().set("Enter your username!");
-        usernameField.getStyleClass().add("empty");
+    private void handleUsernameInvalid(){
+        usernameField.getStyleClass().add("invalid");
+        if(usernameField.getText().isEmpty())
+            usernameField.promptTextProperty().set("Enter your username!");
+        else {
+            usernameField.setText("");
+            usernameField.promptTextProperty().set("Invalid username!");
+        }
+
     }
+
 
 }
