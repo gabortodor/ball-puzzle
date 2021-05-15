@@ -1,19 +1,14 @@
 package ui;
 
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -37,7 +32,8 @@ public class SecondController {
     private final List<Position> selectablePositions = new ArrayList<>();
     private final State state = new State();
     private final Stopwatch stopwatch = new Stopwatch();
-    Color color = generateColor();
+    private final Color color = generateColor();
+    private String username;
 
     String[] arrows = new String[]{"\u25B2", "\u25B6", "\u25BC", "\u25C0"};
 
@@ -204,6 +200,10 @@ public class SecondController {
         if (newValue) {
             stopwatch.stop();
             Logger.debug("The goal has been reached with the time of {} and the move count of {}",stopwatch.hhmmssProperty().get(),state.getNumberOfMoves());
+
+            JsonHelper e=new JsonHelper(username,state.getNumberOfMoves(),stopwatch.getSeconds());
+            e.save();
+
             ButtonType menu=new ButtonType("Main menu");
             Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION,"Alert",menu,new ButtonType("Leaderboard"));
             isGoalAlert.setTitle("Puzzle solved");
@@ -245,4 +245,8 @@ public class SecondController {
         stage.show();
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+        Logger.debug("Username set to: {}",this.username);
+    }
 }

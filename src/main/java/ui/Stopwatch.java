@@ -24,11 +24,15 @@ public class Stopwatch {
             seconds.set(seconds.get() + 1);
         }), new KeyFrame(Duration.seconds(1)));
         timeline.setCycleCount(Animation.INDEFINITE);
-        hhmmss.bind(Bindings.createStringBinding(() -> DurationFormatUtils.formatDuration(seconds.get() * 1000, "HH:mm:ss"), seconds));
+        hhmmss.bind(Bindings.createStringBinding(() -> formatSeconds(seconds.get()), seconds));
     }
 
     public LongProperty secondsProperty() {
         return seconds;
+    }
+
+    public long getSeconds() {
+        return seconds.get();
     }
 
     public StringProperty hhmmssProperty() {
@@ -45,6 +49,10 @@ public class Stopwatch {
 
     public void reset() {
         seconds.set(0);
+    }
+
+    public static String formatSeconds(long seconds){
+        return DurationFormatUtils.formatDuration(seconds * 1000, "HH:mm:ss");
     }
 
     public Animation.Status getStatus() {

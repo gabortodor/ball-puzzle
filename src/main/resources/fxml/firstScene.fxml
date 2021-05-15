@@ -1,36 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FirstController">
-   <top>
-      <Label text="Ball Puzzle" BorderPane.alignment="CENTER">
+<VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="200.0" spacing="20.0" stylesheets="@../css/firstScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FirstController">
+   <children>
+      <Label text="Ball Puzzle" textAlignment="CENTER">
          <font>
-            <Font size="50.0" />
-         </font>
-      </Label>
-   </top>
-   <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label text="Enter your name:" />
-            <TextField fx:id="username" />
-         </children>
-      </HBox>
-   </center>
-   <bottom>
-      <HBox spacing="520.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="exit" mnemonicParsing="false" onAction="#handleExit" text="Exit">
-               <HBox.margin>
-                  <Insets left="3.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="play" mnemonicParsing="false" onAction="#switchScene" text="Play" />
-         </children>
-      </HBox>
-   </bottom>
-</BorderPane>
+            <Font size="40.0" />
+         </font></Label>
+      <TextField fx:id="usernameField" maxWidth="150.0" promptText="Your name" />
+      <Button fx:id="playButton" mnemonicParsing="false" onAction="#switchToGame" text="Play">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="leaderboardButton" mnemonicParsing="false" onAction="#switchToLeaderboard" text="Leaderboard">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+      <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExit" text="Exit">
+         <font>
+            <Font size="15.0" />
+         </font></Button>
+   </children>
+</VBox>
