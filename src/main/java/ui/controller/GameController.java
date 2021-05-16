@@ -39,8 +39,6 @@ public class GameController {
     private final Stopwatch stopwatch = new Stopwatch();
     private String username;
 
-    String[] arrows = new String[]{"\u25B2", "\u25B6", "\u25BC", "\u25C0"};
-
     @FXML
     private GridPane grid;
 
@@ -184,12 +182,10 @@ public class GameController {
         int row = position.getRow() - state.getPosition().getRow();
         int col = position.getCol() - state.getPosition().getCol();
         int index = Direction.of(row, col).ordinal();
-        Label text = new Label(arrows[index]);
+        Label text = new Label("\u25B2");
         text.setTextFill(getColor());
-        if (index % 2 == 0)
-            text.setFont(new Font(30));
-        else
-            text.setFont(new Font(50));
+        text.setFont(new Font(30));
+        text.setRotate(90*index);
         return text;
     }
 
@@ -218,7 +214,7 @@ public class GameController {
             Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION,"Alert",menu,new ButtonType("Leaderboard"));
             isGoalAlert.setTitle("Puzzle solved");
             isGoalAlert.setHeaderText("The puzzle has been solved!");
-            isGoalAlert.setContentText("Time: "+stopwatch.hhmmssProperty().get()+"\tMoves:"+state.getNumberOfMoves());
+            isGoalAlert.setContentText("Time: "+stopwatch.hhmmssProperty().get()+"\t\tMoves:"+state.getNumberOfMoves());
             Label text=new Label("\u2605");
             text.setTextFill(getColor());
             text.setFont(new Font(40));

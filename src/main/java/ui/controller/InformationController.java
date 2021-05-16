@@ -33,7 +33,10 @@ public class InformationController {
     public void handleHyperlink() {
         {
             try {
-                Desktop.getDesktop().browse(new URI(hyperlink.getText()));
+                if(Desktop.isDesktopSupported())
+                    Desktop.getDesktop().browse(new URI(hyperlink.getText()));
+                else
+                    Logger.debug("Not supported desktop type");
             } catch (Exception e) {
                Logger.debug(e.getStackTrace());
             }

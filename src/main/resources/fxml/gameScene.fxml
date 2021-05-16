@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.GameController">
+<VBox prefHeight="660.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.GameController">
    <children>
-      <GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@../css/gameScene.css">
+      <GridPane fx:id="grid" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" stylesheets="@../css/gameScene.css">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -26,20 +26,33 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <HBox alignment="CENTER" spacing="10.0">
+      <HBox alignment="CENTER">
          <children>
-            <Label text="Moves:" />
-            <TextField fx:id="numberOfMovesField" editable="false" prefColumnCount="3" text="0">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></TextField>
-            <Button mnemonicParsing="false" onAction="#handleRestart" text="Restart">
-               <HBox.margin>
-                  <Insets left="140.0" right="140.0" />
-               </HBox.margin>
-            </Button>
-            <Label text="Elapsed Time:" />
-            <TextField fx:id="elapsedTime" editable="false" prefColumnCount="8" prefHeight="25.0" prefWidth="61.0" text="00:00:00" />
+            <HBox alignment="CENTER_LEFT" prefWidth="210.0">
+               <children>
+                  <Label text="Moves:" />
+                  <TextField fx:id="numberOfMovesField" editable="false" prefColumnCount="3" text="0">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefWidth="210.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleRestart" text="Restart">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefWidth="210.0">
+               <children>
+                  <Label text="Elapsed Time:" />
+                  <TextField fx:id="elapsedTime" editable="false" prefColumnCount="8" prefHeight="25.0" prefWidth="80.0" text="00:00:00" />
+               </children>
+            </HBox>
          </children>
          <VBox.margin>
             <Insets top="10.0" />
