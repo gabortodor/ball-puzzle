@@ -1,12 +1,12 @@
-package ui;
+package ui.controller;
 
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -20,6 +20,9 @@ import javafx.scene.text.Font;
 import model.Direction;
 import model.Position;
 import model.State;
+import helper.JsonHelper;
+import helper.Stopwatch;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,12 +30,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class SecondController {
+public class GameController {
+
+    private static Color color;
 
     private final List<Position> selectablePositions = new ArrayList<>();
     private final State state = new State();
     private final Stopwatch stopwatch = new Stopwatch();
-    private final Color color = generateColor();
     private String username;
 
     String[] arrows = new String[]{"\u25B2", "\u25B6", "\u25BC", "\u25C0"};
@@ -46,9 +50,12 @@ public class SecondController {
     @FXML
     private TextField elapsedTime;
 
+    private Position previousPosition;
+
     @FXML
     private void initialize() {
         Logger.debug("Initializing puzzle");
+        color=generateColor();
         createGrid();
         createBall();
         setSelectablePositions();
@@ -96,14 +103,14 @@ public class SecondController {
     private void createBall() {
         state.positionProperty().addListener(this::ballPositionChange);
         var ball = new Circle(30);
-        ball.setFill(color);
+        ball.setFill(getColor());
         getTile(state.getPosition()).getChildren().add(ball);
     }
 
     private void createGoal(){
         StackPane tile=getTile(state.getBoard().getGoalPosition());
         Label text=new Label("Goal");
-        text.setTextFill(color);
+        text.setTextFill(getColor());
         text.setFont(new Font(30));
         tile.getChildren().add(text);
     }
@@ -129,11 +136,14 @@ public class SecondController {
 
     private void handleClickOnSquare(Position position) {
         if (selectablePositions.contains(position)) {
+            previousPosition=state.getPosition();
             hideSelectablePositions();
             Direction direction = Direction.of(position.getRow() - state.getPosition().getRow(), position.getCol() - state.getPosition().getCol());
             hideSelectablePositions();
             Logger.debug("Moving the ball in the direction: {}",direction);
             state.move(direction);
+            Logger.debug("Movement:{} -> {}",previousPosition,state.getPosition());
+
             setSelectablePositions();
             showSelectablePositions();
         }
@@ -165,7 +175,7 @@ public class SecondController {
         }
     }
 
-    private Color generateColor() {
+    private static Color generateColor() {
         Random random = new Random();
         return Color.rgb(random.nextInt(230), random.nextInt(230), random.nextInt(230));
     }
@@ -175,7 +185,7 @@ public class SecondController {
         int col = position.getCol() - state.getPosition().getCol();
         int index = Direction.of(row, col).ordinal();
         Label text = new Label(arrows[index]);
-        text.setTextFill(color);
+        text.setTextFill(getColor());
         if (index % 2 == 0)
             text.setFont(new Font(30));
         else
@@ -189,12 +199,12 @@ public class SecondController {
 
 
     private void ballPositionChange(ObservableValue<? extends Position> observable, Position oldPosition, Position newPosition) {
-        Logger.debug("Move:{} -> {}",oldPosition,newPosition);
         StackPane oldTile = getTile(oldPosition);
         StackPane newTile = getTile(newPosition);
         newTile.getChildren().addAll(oldTile.getChildren());
         oldTile.getChildren().clear();
     }
+
 
     private void handleIsGoal(ObservableValue observableValue, boolean oldValue, boolean newValue){
         if (newValue) {
@@ -209,11 +219,15 @@ public class SecondController {
             isGoalAlert.setTitle("Puzzle solved");
             isGoalAlert.setHeaderText("The puzzle has been solved!");
             isGoalAlert.setContentText("Time: "+stopwatch.hhmmssProperty().get()+"\tMoves:"+state.getNumberOfMoves());
+            Label text=new Label("\u2605");
+            text.setTextFill(getColor());
+            text.setFont(new Font(40));
+            isGoalAlert.setGraphic(text);
             isGoalAlert.showAndWait();
             if(isGoalAlert.getResult()==menu){
-                switchScene("/fxml/firstScene.fxml");
+                switchScene("/fxml/menuScene.fxml");
             }else{
-                switchScene("/fxml/thirdScene.fxml");
+                switchScene("/fxml/leaderboardScene.fxml");
             }
         }
     }
@@ -239,7 +253,7 @@ public class SecondController {
         catch (IOException e){
             Logger.debug("Cannot load scene");
             Logger.debug("Exception caught:{}, {}",e.getMessage(),e.getCause());
-            System.exit(1);
+            Platform.exit();
         }
         stage.setScene(new Scene(root));
         stage.show();
@@ -248,5 +262,11 @@ public class SecondController {
     public void setUsername(String username) {
         this.username = username;
         Logger.debug("Username set to: {}",this.username);
+    }
+
+    public static Color getColor(){
+        if(color==null)
+            return Color.BLACK;
+        return color;
     }
 }

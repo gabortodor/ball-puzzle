@@ -1,4 +1,4 @@
-package ui;
+package helper;
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

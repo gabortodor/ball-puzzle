@@ -1,4 +1,4 @@
-package ui;
+package ui.controller;
 
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -14,12 +14,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
+import helper.JsonHelper;
+import helper.Stopwatch;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 
-public class ThirdController {
+public class LeaderboardController {
 
     @FXML
     private TableView tableView;
@@ -36,10 +38,16 @@ public class ThirdController {
     @FXML
     private TextField textField;
 
-    JsonHelper.JsonObject[] array;
+    @FXML
+    private Label label;
+
+    private JsonHelper.JsonObject[] array;
+
+    private int INITIALBOARDSIZE=10;
 
     @FXML
     private void initialize(){
+        label.setTextFill(GameController.getColor());
         tableView.setPlaceholder(new Label("No game records yet."));
         username.setCellValueFactory(new PropertyValueFactory<>("username"));
         numberOfMoves.setCellValueFactory(new PropertyValueFactory<>("numberOfMoves"));
@@ -47,7 +55,7 @@ public class ThirdController {
 
         if(JsonHelper.getFile().exists()) {
             array = JsonHelper.load();
-            JsonHelper.JsonObject[] currentArray = filterArray(JsonHelper.LEADERBOARDSIZE);
+            JsonHelper.JsonObject[] currentArray = filterArray(INITIALBOARDSIZE);
             loadArray(currentArray);
         }
     }
@@ -61,7 +69,7 @@ public class ThirdController {
     private void switchToMenu(ActionEvent event) throws IOException{
         Logger.debug("Switching scenes to main menu");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/firstScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuScene.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
     }
@@ -73,7 +81,7 @@ public class ThirdController {
     }
 
     @FXML
-    private void handleTextFieldEvent(ActionEvent event){
+    private void handleTextFieldEvent(){
         try{
             int max=Integer.parseInt(textField.getText());
             JsonHelper.JsonObject[] currentArray= filterArray(max);
@@ -101,8 +109,7 @@ public class ThirdController {
         if(deleteAlert.getResult()==deleteButton){
             JsonHelper.deleteSave();
             Logger.debug("Deleted records");
-            initialize();
-
+            tableView.getItems().clear();
         }
     }
 }

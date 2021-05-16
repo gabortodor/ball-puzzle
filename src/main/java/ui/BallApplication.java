@@ -12,9 +12,9 @@ public class BallApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/firstScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menuScene.fxml"));
         stage.setTitle("Ball Puzzle");
-        stage.getIcons().add(new Image("ball.png"));
+        stage.getIcons().add(new Image("images/ball.png"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setResizable(false);

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="300.0" prefWidth="200.0" spacing="20.0" stylesheets="@../css/firstScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FirstController">
+<VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="20.0" stylesheets="@../css/menuScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.MenuController">
    <children>
-      <Label text="Ball Puzzle" textAlignment="CENTER">
+      <Label fx:id="label" text="Ball Puzzle" textAlignment="CENTER">
          <font>
             <Font size="40.0" />
          </font></Label>
@@ -19,9 +20,17 @@
          <font>
             <Font size="15.0" />
          </font></Button>
+      <Button mnemonicParsing="false" onAction="#switchToInformation" text="Information">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
       <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExit" text="Exit">
          <font>
             <Font size="15.0" />
-         </font></Button>
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" />
+         </VBox.margin></Button>
    </children>
 </VBox>

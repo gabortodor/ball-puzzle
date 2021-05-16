@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.LeaderboardController">
+   <children>
+      <Pane>
+         <children>
+            <Label fx:id="label" text="Leaderboard">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <HBox>
+         <children>
+            <TableView fx:id="tableView" prefHeight="346.0" prefWidth="450.0">
+              <columns>
+                <TableColumn fx:id="username" editable="false" prefWidth="150.0" text="Username" />
+                <TableColumn fx:id="numberOfMoves" editable="false" prefWidth="150.0" text="Number of Moves" />
+                  <TableColumn fx:id="time" editable="false" prefWidth="150.0" text="Time" />
+              </columns>
+            </TableView>
+            <VBox alignment="TOP_CENTER" prefHeight="330.0" prefWidth="151.0">
+               <children>
+                  <Button fx:id="menuButton" mnemonicParsing="false" onAction="#switchToMenu" text="Main menu">
+                     <VBox.margin>
+                        <Insets bottom="150.0" />
+                     </VBox.margin></Button>
+                  <Button fx:id="delete" mnemonicParsing="false" onAction="#handleDelete" text="Delete records" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label text="Number of results shown:" />
+            <TextField fx:id="textField" onAction="#handleTextFieldEvent" prefHeight="25.0" prefWidth="59.0" promptText="max.100">
+               <HBox.margin>
+                  <Insets right="315.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+</VBox>
