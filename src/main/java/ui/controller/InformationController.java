@@ -9,10 +9,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
-
-
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
@@ -25,11 +25,15 @@ public class InformationController {
     private Label label;
 
     @FXML
+    private ImageView imageView;
+
+    @FXML
     private void initialize(){
         label.setTextFill(GameController.getColor());
+        imageView.setImage(new Image(getClass().getResourceAsStream("/images/puzzleproblem.png")));
     }
 
-
+    @FXML
     public void handleHyperlink() {
         {
             try {

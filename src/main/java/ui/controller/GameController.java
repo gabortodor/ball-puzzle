@@ -48,7 +48,6 @@ public class GameController {
     @FXML
     private TextField elapsedTime;
 
-    private Position previousPosition;
 
     @FXML
     private void initialize() {
@@ -134,7 +133,7 @@ public class GameController {
 
     private void handleClickOnSquare(Position position) {
         if (selectablePositions.contains(position)) {
-            previousPosition=state.getPosition();
+            Position previousPosition=state.getPosition();
             hideSelectablePositions();
             Direction direction = Direction.of(position.getRow() - state.getPosition().getRow(), position.getCol() - state.getPosition().getCol());
             hideSelectablePositions();

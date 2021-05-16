@@ -21,10 +21,7 @@
             <Label lineSpacing="3.0" prefWidth="600.0" text="This application is a Software Engineering course project, where we were each given a puzzle problem to implement. The puzzle corresponding to this project was the following:&#13;&#9;-Get the ball in the labyrinth(see below) to the goal position.&#13;&#9;-The ball can only move in the four main directions. &#13;&#9;-If it started moving in a direction, it rolls until it hits a wall or the border of the board. " wrapText="true" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <ImageView fitHeight="183.0" fitWidth="232.0" pickOnBounds="true" preserveRatio="true" x="100.0" y="100.0" BorderPane.alignment="CENTER">
-               <image>
-                  <Image url="@../images/puzzleproblem.png" />
-               </image>
+            <ImageView fx:id="imageView" fitHeight="183.0" fitWidth="232.0" pickOnBounds="true" preserveRatio="true" x="100.0" y="100.0" BorderPane.alignment="CENTER">
                <viewport>
                   <Rectangle2D />
                </viewport>

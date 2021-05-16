@@ -38,7 +38,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT">
          <children>
-            <HBox alignment="CENTER_LEFT" prefWidth="400.0">
+            <HBox alignment="CENTER_LEFT" prefWidth="450.0">
                <children>
                   <Label text="Number of results shown:" />
                   <TextField fx:id="textField" onAction="#handleTextFieldEvent" promptText="max.100">
@@ -48,7 +48,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+            <HBox alignment="CENTER" prefWidth="150.0">
                <children>
                   <Button fx:id="exitButton" mnemonicParsing="false" onAction="#handleExit" text="Exit" />
                </children>

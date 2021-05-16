@@ -43,7 +43,7 @@ public class LeaderboardController {
 
     private JsonHelper.JsonObject[] array;
 
-    private int INITIALBOARDSIZE=10;
+    private final int INITIAL_BOARD_SIZE=10;
 
     @FXML
     private void initialize(){
@@ -55,14 +55,14 @@ public class LeaderboardController {
 
         if(JsonHelper.getFile().exists()) {
             array = JsonHelper.load();
-            JsonHelper.JsonObject[] currentArray = filterArray(INITIALBOARDSIZE);
+            JsonHelper.JsonObject[] currentArray = filterArray(INITIAL_BOARD_SIZE);
             loadArray(currentArray);
         }
     }
 
 
     private JsonHelper.JsonObject[] filterArray(int max){
-        return Arrays.stream(array).filter(p->!p.getUsername().equals(JsonHelper.DEFAULTUSERNAME)).limit(max).toArray(JsonHelper.JsonObject[]::new);
+        return Arrays.stream(array).filter(p->!p.getUsername().equals(JsonHelper.DEFAULT_USERNAME)).limit(max).toArray(JsonHelper.JsonObject[]::new);
     }
 
     @FXML
@@ -84,8 +84,10 @@ public class LeaderboardController {
     private void handleTextFieldEvent(){
         try{
             int max=Integer.parseInt(textField.getText());
-            JsonHelper.JsonObject[] currentArray= filterArray(max);
-            loadArray(currentArray);
+            if(max>-1) {
+                JsonHelper.JsonObject[] currentArray = filterArray(max);
+                loadArray(currentArray);
+            }
         }catch (NumberFormatException e){
             Logger.debug("Cannot convert input into Integer");
         }

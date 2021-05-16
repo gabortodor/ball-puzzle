@@ -31,7 +31,7 @@ public class MenuController {
 
     @FXML
     private void switchToGame(ActionEvent event) throws IOException {
-        if(usernameField.getText().isEmpty() || usernameField.getText().equals(JsonHelper.DEFAULTUSERNAME))
+        if(usernameField.getText().isEmpty() || usernameField.getText().equals(JsonHelper.DEFAULT_USERNAME))
             handleUsernameInvalid();
         else {
             Logger.debug("Switching scene to game");

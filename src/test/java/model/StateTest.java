@@ -8,14 +8,14 @@ import java.util.EnumSet;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StateTest {
-    State state1=new State();       //Original
+    State state1=new State();  //Original state
 
-    State state2=new State(new Board(),new Position(5,2));  //goal
+    State state2=new State(new Board(),new Position(5,2));  //Goal state
 
-    State state3=new State(new Board(),new Position(6,6)); //non-goal
+    State state3=new State(new Board(),new Position(6,6)); //Non-goal state
 
     State state4=new State(new Board(new int[][]{{4,4},{5,4}},
-            new int[][]{{4,4},{4,3}}),new Position(4,4));//dead-end
+            new int[][]{{4,4},{4,3}}),new Position(4,4));//Dead-end state
 
     @Test
     void testConstructor_invalid() {

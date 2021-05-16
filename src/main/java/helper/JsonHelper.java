@@ -14,17 +14,32 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Helper class for easier saving via JSON
+ * Helper class for easier saving via JSON.
  */
 public class JsonHelper {
 
-    public static final int LEADERBOARDSIZE = 100;
-    public static final String DEFAULTUSERNAME ="*";
+    /**
+     * Value representing the maximum number of records stored.
+     */
+    public static final int LEADERBOARD_SIZE = 100;
+
+    /**
+     * The default username, which is used in auto-generated records.
+     */
+    public static final String DEFAULT_USERNAME ="*";
     private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     private static File file=new File(determineFilePath());;
-    private JsonObject[] array = new JsonObject[LEADERBOARDSIZE];
+    private JsonObject[] array = new JsonObject[LEADERBOARD_SIZE];
 
 
+    /**
+     * Creates a {@code JsonHelper} object and also calls the {@code JsonObject} constructor with the given parameters.
+     * Creates and ordered array of the records.
+     *
+     * @param username {@code String} representation of the user's name
+     * @param numberOfMoves the number of moves taken to reach the goal
+     * @param seconds the time taken in seconds to reach the goal
+     */
     public JsonHelper(String username, int numberOfMoves, long seconds) {
         JsonObject newRecord=new JsonObject(username,numberOfMoves,seconds);
         initializeArray();
@@ -36,7 +51,7 @@ public class JsonHelper {
     }
 
 
-    public void initializeArray() {
+    private void initializeArray() {
         if (file.exists()) {
             array=load();
         } else {
@@ -71,6 +86,9 @@ public class JsonHelper {
         return jsonObjects;
     }
 
+    /**
+     * Writes the currently used record array to the save file.
+     */
     public void save() {
         try (FileWriter fileWriter = new FileWriter(file)) {
             fileWriter.write(objectMapper.writeValueAsString(array));
@@ -79,6 +97,9 @@ public class JsonHelper {
         }
     }
 
+    /**
+     * {@return the save file's content in a {@code JsonObject} array}
+     */
     public static JsonObject[] load(){
         try {
             return objectMapper.readValue(file, JsonObject[].class);
@@ -88,16 +109,22 @@ public class JsonHelper {
         }
     }
 
+    /**
+     * Deletes the current save file.
+     */
     public static void deleteSave(){
         file.delete();
     }
 
+    /**
+     * {@return a {@code File} object, which corresponds to the save file}
+     */
     public static File getFile() {
         return file;
     }
 
     /**
-     * Helper class representing an object with all the attributes, which are need to be saved
+     * Helper class representing an object with all the attributes, which are need to be saved.
      */
     public static class JsonObject {
         private String username;
@@ -106,24 +133,43 @@ public class JsonHelper {
 
         private long seconds;
 
+        /**
+         * No-args constructor for the {@code JsonObject} class.
+         */
         JsonObject(){
 
         }
 
+        /**
+         * Creates a {@code JsonObject} with the given parameters.
+         *
+         * @param username {@code String} representation of the user's name
+         * @param numberOfMoves the number of moves taken to reach the goal
+         * @param seconds the time taken in seconds to reach the goal
+         */
         JsonObject(String username, int numberOfMoves, long seconds) {
             this.username = username;
             this.numberOfMoves = numberOfMoves;
             this.seconds = seconds;
         }
 
+        /**
+         * {@return the username}
+         */
         public String getUsername() {
             return username;
         }
 
+        /**
+         * {@return the number of moves}
+         */
         public int getNumberOfMoves() {
             return numberOfMoves;
         }
 
+        /**
+         * {@return the time represented in seconds}
+         */
         public long getSeconds() {
             return seconds;
         }
