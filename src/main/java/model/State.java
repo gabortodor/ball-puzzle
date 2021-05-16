@@ -86,7 +86,8 @@ public class State implements Cloneable {
 
 
     /**
-     * {@return whether the current position of the ball is a goal position or not}
+     * Checks whether the current position of the ball is a goal position or not and sets
+     * the property corresponding to that.
      */
     public void isGoal() {
         goal.set(position.get().equals(board.getGoalPosition()));

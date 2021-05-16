@@ -13,7 +13,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-
+/**
+ * Helper class for easier saving via JSON
+ */
 public class JsonHelper {
 
     public static final int LEADERBOARDSIZE = 100;
@@ -94,6 +96,9 @@ public class JsonHelper {
         return file;
     }
 
+    /**
+     * Helper class representing an object with all the attributes, which are need to be saved
+     */
     public static class JsonObject {
         private String username;
 
