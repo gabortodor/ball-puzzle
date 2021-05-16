@@ -20,8 +20,8 @@
          <children>
             <TableView fx:id="tableView" prefHeight="346.0" prefWidth="450.0">
               <columns>
-                <TableColumn fx:id="username" editable="false" prefWidth="150.0" text="Username" />
-                <TableColumn fx:id="numberOfMoves" editable="false" prefWidth="150.0" text="Number of Moves" />
+                <TableColumn fx:id="username" editable="false" prefWidth="149.0" text="Username" />
+                <TableColumn fx:id="numberOfMoves" editable="false" prefWidth="149.0" text="Number of Moves" />
                   <TableColumn fx:id="time" editable="false" prefWidth="150.0" text="Time" />
               </columns>
             </TableView>

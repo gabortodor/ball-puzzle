@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox maxHeight="400.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.InformationController">
+<VBox maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.controller.InformationController">
    <children>
       <Pane prefWidth="200.0">
          <children>
@@ -16,7 +16,7 @@
                </font></Label>
          </children>
       </Pane>
-      <BorderPane prefHeight="180.0" prefWidth="600.0">
+      <BorderPane prefWidth="600.0">
          <top>
             <Label lineSpacing="3.0" prefWidth="600.0" text="This application is a Software Engineering course project, where we were each given a puzzle problem to implement. The puzzle corresponding to this project was the following:&#13;&#9;-Get the ball in the labyrinth(see below) to the goal position.&#13;&#9;-The ball can only move in the four main directions. &#13;&#9;-If it started moving in a direction, it rolls until it hits a wall or the border of the board. " wrapText="true" BorderPane.alignment="CENTER" />
          </top>
@@ -30,18 +30,13 @@
                </BorderPane.margin></ImageView>
          </center>
          <bottom>
-            <TextFlow prefWidth="600.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Label text="The source code and other information can be found on the Github page:" wrapText="true" />
-                  <Hyperlink fx:id="hyperlink" onAction="#handleHyperlink" text="https://github.com/gabortodor/ball-puzzle" />
-               </children>
-               <BorderPane.margin>
-                  <Insets bottom="5.0" />
-               </BorderPane.margin>
-            </TextFlow>
+            <Label prefWidth="600.0" text="The source code and other information can be found on the Github page:&#13;https://github.com/gabortodor/ball-puzzle" wrapText="true" BorderPane.alignment="CENTER" />
          </bottom>
+         <VBox.margin>
+            <Insets bottom="10.0" />
+         </VBox.margin>
       </BorderPane>
-      <HBox>
+      <HBox alignment="BOTTOM_LEFT">
          <children>
             <HBox alignment="CENTER_LEFT" prefWidth="300.0">
                <children>
@@ -54,6 +49,9 @@
                </children>
             </HBox>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </HBox>
    </children>
 </VBox>
