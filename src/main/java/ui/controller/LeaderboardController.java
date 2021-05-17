@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import org.tinylog.Logger;
 import helper.JsonHelper;
 import helper.Stopwatch;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -60,7 +59,6 @@ public class LeaderboardController {
         }
     }
 
-
     private JsonHelper.JsonObject[] filterArray(int max){
         return Arrays.stream(array).filter(p->!p.getUsername().equals(JsonHelper.DEFAULT_USERNAME)).limit(max).toArray(JsonHelper.JsonObject[]::new);
     }
@@ -84,15 +82,13 @@ public class LeaderboardController {
     private void handleTextFieldEvent(){
         try{
             int max=Integer.parseInt(textField.getText());
-            if(max>-1) {
+            if(max>=0) {
                 JsonHelper.JsonObject[] currentArray = filterArray(max);
                 loadArray(currentArray);
             }
         }catch (NumberFormatException e){
             Logger.debug("Cannot convert input into Integer");
         }
-
-
     }
 
     private void loadArray(JsonHelper.JsonObject[] currentArray){

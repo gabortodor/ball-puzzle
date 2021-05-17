@@ -66,10 +66,9 @@ public class Position implements Cloneable {
      *
      * @param direction a direction that specifies the change in the coordinates
      */
-    public Position setTarget(Direction direction) {
+    public void setTarget(Direction direction) {
         row += direction.getRowChange();
         col += direction.getColChange();
-        return this;
     }
 
     public void setUp() {

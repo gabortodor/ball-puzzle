@@ -9,7 +9,7 @@
    <children>
       <Pane>
          <children>
-            <Label fx:id="label" text="Leaderboard">
+            <Label fx:id="label" text="Leaderboard" underline="true">
                <font>
                   <Font size="30.0" />
                </font>

@@ -27,7 +27,7 @@ public class State implements Cloneable {
 
     /**
      * Creates a {@code model.Position} object, using the given
-     * board an position.
+     * board and position.
      *
      * @param board the board in which the puzzle will take place
      * @param position the position of the ball in the initial state
@@ -80,10 +80,6 @@ public class State implements Cloneable {
     public SimpleIntegerProperty numberOfMovesProperty(){
         return numberOfMoves;
     }
-
-
-
-
 
     /**
      * Checks whether the current position of the ball is a goal position or not and sets

@@ -24,9 +24,9 @@ public class Stopwatch {
      * Creates a {@code Stopwatch} object.
      */
     public Stopwatch() {
-        timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            seconds.set(seconds.get() + 1);
-        }), new KeyFrame(Duration.seconds(1)));
+        timeline = new Timeline(new KeyFrame(Duration.ZERO, e ->
+            seconds.set(seconds.get() + 1)
+        ), new KeyFrame(Duration.seconds(1)));
         timeline.setCycleCount(Animation.INDEFINITE);
         hhmmss.bind(Bindings.createStringBinding(() -> formatSeconds(seconds.get()), seconds));
     }

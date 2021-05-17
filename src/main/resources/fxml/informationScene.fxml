@@ -10,7 +10,7 @@
    <children>
       <Pane prefWidth="200.0">
          <children>
-            <Label fx:id="label" text="Information">
+            <Label fx:id="label" text="Information" underline="true">
                <font>
                   <Font size="30.0" />
                </font></Label>

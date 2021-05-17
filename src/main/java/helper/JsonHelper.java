@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Helper class for easier saving via JSON.
+ * Helper class for easier serializing and deserializing for JSON.
  */
 public class JsonHelper {
 
@@ -27,8 +27,9 @@ public class JsonHelper {
      * The default username, which is used in auto-generated records.
      */
     public static final String DEFAULT_USERNAME ="*";
+
     private static final ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-    private static File file=new File(determineFilePath());;
+    private static final File file=new File(determineFilePath());
     private JsonObject[] array = new JsonObject[LEADERBOARD_SIZE];
 
 

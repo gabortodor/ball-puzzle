@@ -22,8 +22,6 @@ import model.Position;
 import model.State;
 import helper.JsonHelper;
 import helper.Stopwatch;
-
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +49,7 @@ public class GameController {
 
     @FXML
     private void initialize() {
-        Logger.debug("Initializing puzzle");
+        Logger.debug("Initializing puzzle...");
         color=generateColor();
         createGrid();
         createBall();
@@ -87,7 +85,6 @@ public class GameController {
             getTile(position).getStyleClass().add("tile-right");
         if (topBorders.contains(position))
             getTile(position).getStyleClass().add("tile-top");
-
     }
 
     private StackPane createTile() {
@@ -128,10 +125,10 @@ public class GameController {
         var col = GridPane.getColumnIndex(tile);
         var position = new Position(row, col);
         Logger.debug("Click on the tile: {}", position);
-        handleClickOnSquare(position);
+        handleClickOnTile(position);
     }
 
-    private void handleClickOnSquare(Position position) {
+    private void handleClickOnTile(Position position) {
         if (selectablePositions.contains(position)) {
             Position previousPosition=state.getPosition();
             hideSelectablePositions();
@@ -152,7 +149,6 @@ public class GameController {
         for (var direction : state.getLegalMoves()) {
             selectablePositions.add(state.getPosition().getTarget(direction));
         }
-
     }
 
     private void showSelectablePositions() {
@@ -161,7 +157,6 @@ public class GameController {
             Label arrow=addArrow(selectablePosition);
             arrow.getStyleClass().add("arrow");
             tile.getChildren().add(arrow);
-
         }
     }
 
@@ -220,8 +215,10 @@ public class GameController {
             isGoalAlert.setGraphic(text);
             isGoalAlert.showAndWait();
             if(isGoalAlert.getResult()==menu){
+                Logger.debug("Switching scenes to menu");
                 switchScene("/fxml/menuScene.fxml");
             }else{
+                Logger.debug("Switching scenes to leaderboard");
                 switchScene("/fxml/leaderboardScene.fxml");
             }
         }
@@ -239,7 +236,6 @@ public class GameController {
     }
 
     private void switchScene(String path) {
-        Logger.debug("Switching scenes...");
         Stage stage = (Stage) (grid.getScene().getWindow());
         Parent root=null;
         try {

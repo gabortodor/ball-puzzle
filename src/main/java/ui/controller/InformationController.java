@@ -25,7 +25,7 @@ public class InformationController {
     @FXML
     private void initialize(){
         label.setTextFill(GameController.getColor());
-        imageView.setImage(new Image(getClass().getResourceAsStream("/images/puzzleproblem.png")));
+        imageView.setImage(new Image(getClass().getResourceAsStream("/images/puzzleProblem.png")));
     }
 
     @FXML

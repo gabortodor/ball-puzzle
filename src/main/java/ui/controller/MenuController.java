@@ -28,7 +28,6 @@ public class MenuController {
         label.setTextFill(GameController.getColor());
     }
 
-
     @FXML
     private void switchToGame(ActionEvent event) throws IOException {
         if(usernameField.getText().isEmpty() || usernameField.getText().equals(JsonHelper.DEFAULT_USERNAME))
@@ -48,17 +47,26 @@ public class MenuController {
     @FXML
     private void switchToLeaderboard(ActionEvent event) throws IOException{
         Logger.debug("Switching scenes to leaderboard");
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/leaderboardScene.fxml"));
-        stage.setScene(new Scene(root));
-        stage.show();
+        switchScene(event,"/fxml/leaderboardScene.fxml");
     }
 
     @FXML
     private void switchToInformation(ActionEvent event) throws IOException{
         Logger.debug("Switching scenes to information");
+        switchScene(event,"/fxml/informationScene.fxml");
+    }
+
+    private void switchScene(ActionEvent event,String path) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/informationScene.fxml"));
+        Parent root=null;
+        try {
+            root = FXMLLoader.load(getClass().getResource(path));
+        }
+        catch (IOException e){
+            Logger.debug("Cannot load scene");
+            Logger.debug("Exception caught:{}, {}",e.getMessage(),e.getCause());
+            Platform.exit();
+        }
         stage.setScene(new Scene(root));
         stage.show();
     }
@@ -77,7 +85,6 @@ public class MenuController {
             usernameField.setText("");
             usernameField.promptTextProperty().set("Invalid username!");
         }
-
     }
 
 
