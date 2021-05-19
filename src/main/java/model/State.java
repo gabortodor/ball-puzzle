@@ -132,8 +132,8 @@ public class State implements Cloneable {
             case DOWN -> moveDown();
             case LEFT -> moveLeft();
         }
-        isGoal();
         numberOfMoves.set(numberOfMoves.get()+1);
+        isGoal();
     }
 
     private void moveUp() {

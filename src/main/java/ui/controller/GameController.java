@@ -200,9 +200,8 @@ public class GameController {
         if (newValue) {
             stopwatch.stop();
             Logger.debug("The goal has been reached with the time of {} and the move count of {}",stopwatch.hhmmssProperty().get(),state.getNumberOfMoves());
-
-            JsonHelper e=new JsonHelper(username,state.getNumberOfMoves(),stopwatch.getSeconds());
-            e.save();
+            JsonHelper jsonHelper=new JsonHelper(username,state.getNumberOfMoves(),stopwatch.getSeconds());
+            jsonHelper.save();
 
             ButtonType menu=new ButtonType("Main menu");
             Alert isGoalAlert = new Alert(Alert.AlertType.CONFIRMATION,"Alert",menu,new ButtonType("Leaderboard"));
